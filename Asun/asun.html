@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffe4e1 0%, #ffc0cb 100%);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 1s ease;
+        }
+
+        .cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Floating Hearts Background */
+        .heart {
+            position: absolute;
+            color: rgba(255, 105, 180, 0.4);
+            pointer-events: none;
+            animation: float 10s infinite linear;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            border-radius: 24px;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        .image-container img {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease;
+            max-height: 280px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        /* Fixed buttons layout to prevent layout shift */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            min-height: 80px;
+        }
+
+        #yes-btn, #no-btn {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Confetti effect for Yes */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Hearts -->
+    <div id="heart-bg"></div>
+
+    <div class="max-w-md w-full px-6">
+        <div id="main-card" class="glass-card p-8 text-center">
+            
+            <div id="proposal-content">
+                <div class="image-container mb-6 overflow-hidden bg-pink-50 rounded-xl">
+                    <img id="display-image" src="C:\Asun\IMG_20260109_162353.jpg"alt="Romantic moment" class="mx-auto shadow-sm">
+                </div>
+                
+                <h1 id="question-text" class="text-4xl cursive text-pink-600 mb-4">Will you be my Valentine?</h1>
+                
+                <p id="message-text" class="text-gray-600 mb-8 font-medium italic h-14 flex items-center justify-center">I've been waiting to ask you this...</p>
+
+                <div class="button-group">
+                    <button id="yes-btn" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform active:scale-95">
+                        YES!
+                    </button>
+                    <button id="no-btn" class="bg-white border-2 border-pink-200 hover:bg-pink-50 text-pink-500 font-bold py-3 px-8 rounded-full shadow-md transform active:scale-95">
+                        No
+                    </button>
+                </div>
+            </div>
+
+            <!-- Success Message (Hidden) -->
+            <div id="success-content" class="hidden">
+                <div class="mb-6 rounded-2xl overflow-hidden shadow-2xl">
+                    <img src="C:\Asun\IMG_20250315_161941.jpg" class="w-full">
+                </div>
+                <h2 class="text-5xl cursive text-pink-600 mb-4">Yayyyy! ❤️</h2>
+                <p class="text-xl text-gray-700 leading-relaxed px-4">
+                    You will get a chocolate with sooo muchh love.... 🍫✨
+                </p>
+                <p class="mt-6 text-pink-500 font-bold text-lg">I love you more than words can say!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array of images and messages for the "No" button journey
+        const memories = [
+            { img: "C:\\Asun\\Snapchat-7334177.jpg", msg: "Are you sure? Think about all our laughs! 🥺" },
+            { img: "C:\\Asun\\Messenger_creation_148BFA84-D4C5-44B4-B062-5713F15EF780.jpeg", msg: "Really? But we are the perfect match... 🧩" },
+            { img: "C:\\Asun\\Snapchat-1373625022.jpg", msg: "Pretty please? I'll be the best partner ever! ✨" },
+            { img: "https://static.vecteezy.com/system/resources/previews/012/140/264/non_2x/crying-flat-color-style-cartoon-bear-doing-a-sad-dance-free-vector.jpg", msg: "My heart is doing a sad dance... 💔" },
+            { img:"C:\\Asun\\Untitled.png", msg: "What if I promise extra cuddles? 🤗" },
+            { img:"C:\\Asun\\Screenshot_2025-12-08-20-07-39-494_com.miui.mediaviewer.jpg", msg: "Don't you miss our sunset walks? 🌅" },
+            { img: "C:\\Asun\\IMG_20241104_185139.jpg", msg: "You're just testing my persistence, right? 😉" },
+            { img: "C:\\Asun\\SAVE_20251208_200340.jpg", msg: "I'll never stop trying to win you over! 💖" },
+            { img: "https://assets.winni.in/product/primary/2023/1/81624.jpeg?dpr=1&w=1000", msg: "Think of the chocolate waiting for you! 🍫" },
+            { img:"C:\\Asun\\Snapchat-798711652.jpg", msg: "Give it one more thought? Just one? 🙏" }
+        ];
+
+        let noCount = 0;
+        const noBtn = document.getElementById('no-btn');
+        const yesBtn = document.getElementById('yes-btn');
+        const displayImg = document.getElementById('display-image');
+        const messageText = document.getElementById('message-text');
+        const questionText = document.getElementById('question-text');
+        const mainCard = document.getElementById('main-card');
+        const proposalContent = document.getElementById('proposal-content');
+        const successContent = document.getElementById('success-content');
+
+        // Create floating hearts for romantic vibe
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = Math.random() > 0.5 ? '❤️' : '💖';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            document.getElementById('heart-bg').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 10000);
+        }
+
+        setInterval(createHeart, 300);
+
+        // No Button Click Logic
+        noBtn.addEventListener('click', () => {
+            noCount++;
+            
+            // Loop images/messages using modulo so it repeats forever
+            const currentIdx = (noCount - 1) % memories.length;
+            const currentMemory = memories[currentIdx];
+
+            // Animate image change
+            displayImg.style.opacity = '0';
+            setTimeout(() => {
+                displayImg.src = currentMemory.img;
+                displayImg.style.opacity = '1';
+            }, 250);
+
+            messageText.innerText = currentMemory.msg;
+            
+            // Make "Yes" button grow slightly to nudge her, 
+            // but keep the "No" button accessible and stable
+            const yesScale = Math.min(1 + (noCount * 0.1), 2.5); // Cap scale at 2.5x
+            yesBtn.style.transform = `scale(${yesScale})`;
+            
+            // Dynamic Background Vibe Change
+            if (noCount % 5 === 0) {
+                const hue = (noCount * 10) % 360;
+                document.body.style.background = `linear-gradient(135deg, hsl(${hue}, 100%, 95%) 0%, hsl(${hue}, 100%, 90%) 100%)`;
+            }
+
+            // Update main question if she keeps saying no
+            if (noCount >= 10) {
+                questionText.innerText = "Are you really sure? 🥺";
+                questionText.classList.add('text-pink-700');
+            }
+        });
+
+        // Yes Button Click Logic
+        yesBtn.addEventListener('click', () => {
+            proposalContent.classList.add('hidden');
+            successContent.classList.remove('hidden');
+            mainCard.classList.add('bounce');
+            document.body.style.background = 'linear-gradient(135deg, #ff0844 0%, #ffb199 100%)';
+            
+            // Celebration!
+            for (let i = 0; i < 150; i++) {
+                setTimeout(createConfetti, i * 10);
+            }
+        });
+
+        function createConfetti() {
+            const colors = ['#ff69b4', '#ff1493', '#ffffff', '#ff0000', '#ffd700', '#ff4d4d'];
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = '-10px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+            
+            const animation = confetti.animate([
+                { transform: `translate3d(0, 0, 0) rotate(0deg)`, opacity: 1 },
+                { transform: `translate3d(${Math.random() * 400 - 200}px, 100vh, 0) rotate(${Math.random() * 1000}deg)`, opacity: 0 }
+            ], {
+                duration: Math.random() * 3000 + 3000,
+                easing: 'cubic-bezier(0, .9, .57, 1)'
+            });
+
+            document.body.appendChild(confetti);
+            animation.onfinish = () => confetti.remove();
+        }
+    </script>
+</body>
+</html>
